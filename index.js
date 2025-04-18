@@ -24,22 +24,23 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/:date", (req, res) => {
-  const input = req.params.date;
   let date;
+  const input = req.params.date;
 
-  // Check if input is a Unix timestamp
-  if (!isNaN(input)) {
-    date = new Date(parseInt(input));
+  // Handle Unix timestamp (if number)
+  if (/^\d+$/.test(input)) {
+    date = new Date(Number(input));
   } else {
     date = new Date(input);
   }
 
-  // Check if date is valid
-  if (date.toString() === 'Invalid Date') {
-    return res.json({ error: 'Invalid Date' });
+  // Handle invalid dates
+  if (date.toString() === "Invalid Date") {
+    return res.json({ error: "Invalid Date" });
   }
 
-  res.json({
+  // Return valid date response
+  return res.json({
     unix: date.getTime(),
     utc: date.toUTCString()
   });
