@@ -14,6 +14,7 @@ app.get("/api/hello", (req, res) => {
   res.json({ greeting: 'hello API' });
 });
 
+//////////////////////////////////////////////////////////////////////////////////////////
 app.get("/api", (req, res) => {
   const now = new Date();
   res.json({
@@ -24,22 +25,14 @@ app.get("/api", (req, res) => {
 
 app.get("/api/:date", (req, res) => {
   const input = req.params.date;
+  
+  const time =  Date(input)
 
-  let date;
-  if (/^\d+$/.test(input)) {
-    date = new Date(parseInt(input));
-  } else {
-    date = new Date(input);
-  }
-
-  if (date.toString() === "Invalid Date") {
-    return res.json({ error: "Invalid Date" });
-  }
-
+console.log(time)
   res.json({
-    unix: date.getTime(),
-    utc: date.toUTCString()
-  });
+    unix: input,
+    utc: time
+  }); 
 });
 
 // Start server
