@@ -25,14 +25,24 @@ app.get("/api", (req, res) => {
 
 app.get("/api/:date", (req, res) => {
   const input = req.params.date;
-  
-  const time =  Date(input)
+  let date;
 
-console.log(time)
+  // Check if input is a Unix timestamp
+  if (!isNaN(input)) {
+    date = new Date(parseInt(input));
+  } else {
+    date = new Date(input);
+  }
+
+  // Check if date is valid
+  if (date.toString() === 'Invalid Date') {
+    return res.json({ error: 'Invalid Date' });
+  }
+
   res.json({
-    unix: input,
-    utc: time
-  }); 
+    unix: date.getTime(),
+    utc: date.toUTCString()
+  });
 });
 
 // Start server
